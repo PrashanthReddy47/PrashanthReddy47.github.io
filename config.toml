@@ -34,10 +34,6 @@ name = "About me"
 url = "about/"
 
 [[params.navlinks]]
-name = "CV"
-url = "CV/"
-
-[[params.navlinks]]
 name = "Get in touch"
 url = "contact/"
 
