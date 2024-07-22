@@ -14,6 +14,6 @@ I’m passionate about technology and love working with data.
 
 #### Education
 
-* I am currently pursuing my **MS in Electronics Engineering, Space Communication and Remote Sensing** at the University of Pavia, Italy. 
+* **MS in Electronics Engineering, Space Communication and Remote Sensing** at the University of Pavia, Italy. 
 
 * I hold a **Bachelor of Technology in Electronics and Communication Engineering**, and have certifications from Coursera, DataCamp, and LinkedIn.
