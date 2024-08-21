@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Prashanth Reddy Putta</title>
+    <link>https://PrashanthReddy47.github.io/</link>
+    <description>Recent content on Prashanth Reddy Putta</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 05 Nov 2022 20:22:08 +0530</lastBuildDate>
+    <atom:link href="https://PrashanthReddy47.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Stock Price Prediction using Python and the LSTM Machine Learning Model</title>
+      <link>https://PrashanthReddy47.github.io/portfolio/work1/</link>
+      <pubDate>Sat, 05 Nov 2022 19:41:01 +0530</pubDate>
+      <guid>https://PrashanthReddy47.github.io/portfolio/work1/</guid>
+      <description>In this project, I used Python and the LSTM machine learning model to predict the stock price of TSLA (Tesla, Inc.). We start by importing the necessary libraries and creating a Ticker object for TSLA. Then visualized the closing price and create a new data frame with only the close column. This data frame is converted to a numpy array and scaled using a MinMaxScaler.&#xA;Data is split into training and testing datasets, which are then converted to numpy arrays.</description>
+    </item>
+    <item>
+      <title>Prettymaps The Grand Canal in Venice, Italy</title>
+      <link>https://PrashanthReddy47.github.io/portfolio/work5.1/</link>
+      <pubDate>Sat, 05 Nov 2022 20:22:08 +0530</pubDate>
+      <guid>https://PrashanthReddy47.github.io/portfolio/work5.1/</guid>
+      <description>This project uses the osmnx, matplotlib, shapely and vsketch packages to create a customized map of Pavia, Italy from OpenStreetMap. The osmnx package is used to access and download OpenStreetMap data for The Grand Canal in Venice, Italy.&#xA;The matplotlib package is used to render the downloaded data as a map. The shapely package is used to process the downloaded data into the appropriate format.&#xA;Finally, the vsketch package is used to create a customized map with various features, such as streets, buildings, parks, and landmarks.</description>
+    </item>
+    <item>
+      <title>Breast Cancer Prediction with Machine Learning Algorithms</title>
+      <link>https://PrashanthReddy47.github.io/portfolio/work3/</link>
+      <pubDate>Sat, 05 Nov 2022 19:44:32 +0530</pubDate>
+      <guid>https://PrashanthReddy47.github.io/portfolio/work3/</guid>
+      <description>Breast cancer is one of the most common forms of cancer among women worldwide. Early detection and accurate diagnosis of breast cancer are crucial for effective treatment and recovery. In this project, my aim is to develop a machine learning model that can predict the diagnosis of breast cancer using different algorithms.&#xA;The project is done in Google Colab using libraries such as:&#xA;numpy pandas matplotlib seaborn Dataset Summary The dataset contains 569 samples of breast cancer tumors and 30 features.</description>
+    </item>
+    <item>
+      <title>Prettymaps Pavia, Italy</title>
+      <link>https://PrashanthReddy47.github.io/portfolio/work5/</link>
+      <pubDate>Sat, 05 Nov 2022 20:22:08 +0530</pubDate>
+      <guid>https://PrashanthReddy47.github.io/portfolio/work5/</guid>
+      <description>This project uses the osmnx, matplotlib, shapely and vsketch packages to create a customized map of Pavia, Italy from OpenStreetMap. The osmnx package is used to access and download OpenStreetMap data for Pavia, Italy.&#xA;The matplotlib package is used to render the downloaded data as a map. The shapely package is used to process the downloaded data into the appropriate format.&#xA;Finally, the vsketch package is used to create a customized map with various features, such as streets, buildings, parks, and landmarks.</description>
+    </item>
+    <item>
+      <title>Country Wise Top Player&#39;s Cricket Records</title>
+      <link>https://PrashanthReddy47.github.io/portfolio/work2/</link>
+      <pubDate>Sat, 05 Nov 2022 19:50:47 +0530</pubDate>
+      <guid>https://PrashanthReddy47.github.io/portfolio/work2/</guid>
+      <description>Tableau Dashbaord Link&#xA;This Tableau project is an interactive dashboard that allows users to explore country-wise top player&amp;rsquo;s cricket records combined Test, ODI, and T20I Batting Records with the most runs in their career.&#xA;The dashboard provides a visual representation of the data, allowing users to quickly identify the top players from each country and their batting records.&#xA;The dashboard also includes interactive filters to further refine the data and explore the records of specific players.</description>
+    </item>
+    <item>
+      <title>GDP by Country 2017</title>
+      <link>https://PrashanthReddy47.github.io/portfolio/work4/</link>
+      <pubDate>Sat, 05 Nov 2022 19:57:40 +0530</pubDate>
+      <guid>https://PrashanthReddy47.github.io/portfolio/work4/</guid>
+      <description>This project seeks to provide an interactive and informative visualization of the global GDP growth rate from 1961-2017 and the GDP by country in 2017. The Tableau dashboard created for this project will allow users to explore the data in an interactive manner, with charts and tables that can be filtered and manipulated to suit the user’s needs.&#xA;The dashboard will include a visualization of the global GDP growth rate from 1961-2017, allowing users to see how the global economy has grown and changed over time.</description>
+    </item>
+  </channel>
+</rss>
