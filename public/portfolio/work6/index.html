@@ -108,11 +108,90 @@
   <div class="row">
     <div class="col-lg-8">
       <div class="content-column-content">
-         <h1>Prettymaps Pavia, Italy</h1>
-         <p>This project uses the osmnx, matplotlib, shapely and vsketch packages to create a customized map of Pavia, Italy from OpenStreetMap. The osmnx package is used to access and download OpenStreetMap data for <strong>Pavia, Italy</strong>.</p>
-<p>The matplotlib package is used to render the downloaded data as a map. The shapely package is used to process the downloaded data into the appropriate format.</p>
-<p>Finally, the vsketch package is used to create a customized map with various features, such as streets, buildings, parks, and landmarks. The resulting map provides a detailed overview of Pavia, Italy.</p>
-<p><img src="/img/portfolio/Pavia.png" alt="Pavia"></p>
+         <h1>Paddy Field Mapping using NDVI Thresholding and Machine Learning</h1>
+         <h4 id="links">Links:</h4>
+<ul>
+<li><a href="https://prashanthreddyputta.users.earthengine.app/view/paddy-field-mapping-with-ndvi-rf-svm">Live Application</a></li>
+</ul>
+<p>In this project, I developed a comprehensive methodology for accurate and efficient mapping of paddy fields in the Nalgonda District, India, using multi-temporal Sentinel-2 imagery. The study employed three different approaches: NDVI thresholding, Random Forest classification, and Support Vector Machine (SVM) classification. The research focused on the Rabi season from December 2019 to May 2020, analyzing the unique phenological patterns of paddy growth to improve classification accuracy.</p>
+<h4 id="methodology-overview">Methodology Overview:</h4>
+<h2 id="methodology-flowchartimgportfoliopaddy-mapping-methodologypng"><img src="/img/portfolio/paddy-mapping-methodology.png" alt="Methodology Flowchart"></h2>
+<hr>
+<h4 id="key-components">Key Components:</h4>
+<ol>
+<li>
+<p><strong>Data Acquisition and Preprocessing</strong></p>
+<ul>
+<li>Utilized Google Earth Engine for cloud-free Sentinel-2 imagery acquisition</li>
+<li>Implemented atmospheric corrections and cloud masking (&lt;20% cloud cover)</li>
+<li>Created 10-day composites for consistent temporal coverage (18 images total)</li>
+</ul>
+</li>
+<li>
+<p><strong>NDVI Threshold Approach</strong></p>
+<ul>
+<li>Established optimal threshold (0.65) for paddy field identification</li>
+<li>Analyzed phenological stages:
+<ul>
+<li>Plantation start: December</li>
+<li>Peak growth: March</li>
+<li>Harvest: June/July</li>
+</ul>
+</li>
+<li>Generated binary mask for paddy pixels</li>
+</ul>
+</li>
+<li>
+<p><strong>Machine Learning Classifications</strong></p>
+<ul>
+<li>Random Forest (RF) and Support Vector Machine (SVM) classifiers</li>
+<li>Training data: 700 paddy points, 300 non-paddy points</li>
+<li>Features: multi-temporal NDVI values and spectral bands</li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="4">
+<li><strong>Time Series Analysis</strong>
+<img src="/img/portfolio/paddy-time-series-analysis.png" alt="Time Series Analysis Workflow"></li>
+</ol>
+<hr>
+<ol start="5">
+<li><strong>Accuracy Assessment</strong>
+<ul>
+<li>Confusion matrices for RF and SVM classifications</li>
+<li>Comparison with ground truth data</li>
+<li>McNemar&rsquo;s test for statistical comparison of methods</li>
+</ul>
+</li>
+</ol>
+<h4 id="technologies-used">Technologies Used:</h4>
+<ul>
+<li>Google Earth Engine (JavaScript API)</li>
+<li>Python for data analysis and machine learning</li>
+<li>Remote sensing techniques (NDVI, spectral indices)</li>
+<li>Machine learning algorithms (Random Forest, SVM)</li>
+</ul>
+<h4 id="results-and-visualizations">Results and Visualizations:</h4>
+<p><img src="/img/portfolio/paddy-mapping.png" alt="Paddy Mapping Results"></p>
+<ul>
+<li>NDVI Threshold Method: Efficiently captured paddy growth cycle</li>
+<li>Random Forest: 97% accuracy</li>
+<li>SVM: 90% accuracy</li>
+<li>Interactive Earth Engine App for result visualization</li>
+<li>Time series charts of NDVI values</li>
+<li>Area statistics for different land cover classes</li>
+</ul>
+<h4 id="impact-and-applications">Impact and Applications:</h4>
+<p>This study demonstrates that the NDVI threshold method can be as effective as complex machine learning approaches while being more time and resource-efficient. The methodology developed can be adapted for mapping other crops with distinct phenological patterns, potentially revolutionizing large-scale crop monitoring practices.</p>
+<p>The project contributes to:</p>
+<ul>
+<li>Improved agricultural monitoring systems</li>
+<li>Enhanced decision-making in crop management</li>
+<li>Food security assessments</li>
+<li>Agricultural policy-making support</li>
+</ul>
+<p>By providing a cost-effective and accurate method for paddy field mapping, this approach is particularly valuable in regions with limited resources for extensive ground surveys.</p>
 
          
       </div>

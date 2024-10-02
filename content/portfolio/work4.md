@@ -2,9 +2,9 @@
 image = "img/portfolio/GDP_2017_by_Country.png"
 showonlyimage = false
 date = "2022-11-05T19:57:40+05:30"
-title = "GDP by Country 2017"
+title = "GDP by Country 2017 Tableau"
 draft = false
-weight = 7
+weight = 4
 +++
 
 This project seeks to provide an interactive and informative visualization of the global GDP growth rate from 1961-2017 and the GDP by country in 2017. The Tableau dashboard created for this project will allow users to explore the data in an interactive manner, with charts and tables that can be filtered and manipulated to suit the user’s needs. 

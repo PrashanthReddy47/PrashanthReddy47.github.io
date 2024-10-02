@@ -4,7 +4,7 @@ image = "img/portfolio/Pavia.png"
 showonlyimage = true
 date = "2022-11-05T20:22:08+05:30"
 title = "Prettymaps Pavia, Italy"
-weight = 4
+weight = 7
 +++
 
 This project uses the osmnx, matplotlib, shapely and vsketch packages to create a customized map of Pavia, Italy from OpenStreetMap. The osmnx package is used to access and download OpenStreetMap data for **Pavia, Italy**.

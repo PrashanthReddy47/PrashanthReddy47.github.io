@@ -2,9 +2,9 @@
 image = "img/portfolio/Cricket_Stats.png"
 showonlyimage = false
 date = "2022-11-05T19:50:47+05:30"
-title = "Country Wise Top Player's Cricket Records"
+title = "Tableau Country Wise Top Player's Cricket Records"
 draft = false
-weight = 6
+weight = 5
 +++
 
 [Tableau Dashbaord Link](https://public.tableau.com/views/TopPlayersCricketRecords/CricketStats?:language=en-US&:display_count=n&:origin=viz_share_link)
