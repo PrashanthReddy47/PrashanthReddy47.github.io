@@ -10,7 +10,7 @@ weight = 1
 #### Links:
 - [Live Application](https://prashanthreddyputta.users.earthengine.app/view/paddy-field-mapping-with-ndvi-rf-svm)
 
-In this project, I developed a comprehensive methodology for accurate and efficient mapping of paddy fields in the Nalgonda District, India, using multi-temporal Sentinel-2 imagery. The study employed three different approaches: NDVI thresholding, Random Forest classification, and Support Vector Machine (SVM) classification. The research focused on the Rabi season from December 2019 to May 2020, analyzing the unique phenological patterns of paddy growth to improve classification accuracy.
+In this project, I developed a comprehensive methodology for accurate and efficient mapping of paddy fields in the Nalgonda District, India, using multi-temporal Sentinel-2 imagery. The study employed three approaches: NDVI thresholding, Random Forest classification, and Support Vector Machine (SVM) classification. The research focused on the Rabi season from December 2019 to May 2020, analyzing the unique phenological patterns of paddy growth to improve classification accuracy.
 
 #### Methodology Overview:
 
@@ -58,12 +58,9 @@ In this project, I developed a comprehensive methodology for accurate and effici
 ![Paddy Mapping Results](/img/portfolio/paddy-mapping.png)
 
 - NDVI Threshold Method: Efficiently captured paddy growth cycle
-- Random Forest: 97% accuracy
-- SVM: 90% accuracy
-- Interactive Earth Engine App for result visualization
-- Time series charts of NDVI values
-- Area statistics for different land cover classes
-
+- Random Forest: 86% accuracy
+- SVM: 80% accuracy
+  
 #### Impact and Applications:
 This study demonstrates that the NDVI threshold method can be as effective as complex machine learning approaches while being more time and resource-efficient. The methodology developed can be adapted for mapping other crops with distinct phenological patterns, potentially revolutionizing large-scale crop monitoring practices.
 
@@ -73,4 +70,4 @@ The project contributes to:
 - Food security assessments
 - Agricultural policy-making support
 
-By providing a cost-effective and accurate method for paddy field mapping, this approach is particularly valuable in regions with limited resources for extensive ground surveys.
+This approach is particularly valuable in regions with limited resources for extensive ground surveys because it provides a cost-effective and accurate method for paddy field mapping.
