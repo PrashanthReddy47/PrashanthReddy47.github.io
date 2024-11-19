@@ -4,7 +4,7 @@ showonlyimage = false
 date = "2022-11-05T19:44:32+05:30"
 title = "Breast Cancer Prediction with Machine Learning Algorithms"
 draft = false
-weight = 2
+weight = 3
 +++
 
 

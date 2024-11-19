@@ -4,7 +4,7 @@ title = "Stock Price Prediction using Python and the LSTM Machine Learning Model
 draft = false
 image = "img/portfolio/stockmarket.png"
 showonlyimage = false
-weight = 3
+weight = 4
 +++
 
 

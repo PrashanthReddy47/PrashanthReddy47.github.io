@@ -4,7 +4,7 @@ title = "Rome Weather Analysis Project"
 draft = false
 image = "img/portfolio/comprehensive_weather_analysis.png"
 showonlyimage = false
-weight = 1
+weight = 2
 +++
 
 ## 📊 Comprehensive Climate Study (1950-2022)
@@ -12,6 +12,8 @@ weight = 1
 A detailed analysis of Rome's changing climate using advanced data analysis and machine learning techniques. This project offers insights into temperature trends, precipitation patterns, and climate change indicators using historical weather data.
 
 [View on GitHub](https://github.com/PrashanthReddy47/Rome-Weather-Analysis-Notebook) | [Live Dashboard](https://roma-weather-analysis.streamlit.app/)
+
+---
 
 ## 🌡️ Key Metrics
 

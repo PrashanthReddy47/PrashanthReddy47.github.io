@@ -4,7 +4,7 @@ showonlyimage = false
 date = "2022-11-05T19:50:47+05:30"
 title = "Tableau Country Wise Top Player's Cricket Records"
 draft = false
-weight = 5
+weight = 6
 +++
 
 [Tableau Dashbaord Link](https://public.tableau.com/views/TopPlayersCricketRecords/CricketStats?:language=en-US&:display_count=n&:origin=viz_share_link)
