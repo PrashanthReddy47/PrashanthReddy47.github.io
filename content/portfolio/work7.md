@@ -1,8 +1,8 @@
 +++
-date = "2024-11-15T19:41:01+05:30"
+date = "2024-11-15T19"
 title = "Rome Weather Analysis Project"
 draft = false
-image = "img/portfolio/comprehensive_weather_analysis.png"
+image = "/img/portfolio/comprehensive_weather_analysis.png"
 showonlyimage = false
 weight = 2
 +++
@@ -49,6 +49,8 @@ A detailed analysis of Rome's changing climate using advanced data analysis and 
 
 ### Machine Learning Models and Comprehensive Analysis
 
+---
+
 ## 🔬 Technical Details
 
 ### Analysis Techniques
@@ -67,6 +69,10 @@ A detailed analysis of Rome's changing climate using advanced data analysis and 
 | Ridge Regression | 0.884 |
 | Lasso Regression | 0.838 |
 | Random Forest | 0.918 |
+
+
+---
+
 
 ## 📊 Data Source
 
