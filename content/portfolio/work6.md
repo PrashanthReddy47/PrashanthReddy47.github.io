@@ -2,7 +2,7 @@
 date = "2024-02-15T19:41:01+05:30"
 title = "Paddy Field Mapping using NDVI Thresholding and Machine Learning"
 draft = false
-image = "img/portfolio/paddy-mapping.png"
+image = "../../img/portfolio/paddy-mapping.png"
 showonlyimage = false
 weight = 1
 +++
@@ -14,7 +14,7 @@ In this project, I developed a comprehensive methodology for accurate and effici
 
 #### Methodology Overview:
 
-![Methodology Flowchart](/img/portfolio/paddy-mapping-methodology.png)
+![Methodology Flowchart](../../img/portfolio/paddy-mapping-methodology.png)
 ---
 ---
 #### Key Components:
@@ -40,7 +40,7 @@ In this project, I developed a comprehensive methodology for accurate and effici
 ---
 
 4. **Time Series Analysis**
-![Time Series Analysis Workflow](/img/portfolio/paddy-time-series-analysis.png)
+![Time Series Analysis Workflow](../../img/portfolio/paddy-time-series-analysis.png)
 ---
 
 5. **Accuracy Assessment**
@@ -55,7 +55,7 @@ In this project, I developed a comprehensive methodology for accurate and effici
 - Machine learning algorithms (Random Forest, SVM)
 
 #### Results and Visualizations:
-![Paddy Mapping Results](/img/portfolio/paddy-mapping.png)
+![Paddy Mapping Results](../../img/portfolio/paddy-mapping.png)
 
 - NDVI Threshold Method: Efficiently captured paddy growth cycle
 - Random Forest: 86% accuracy
