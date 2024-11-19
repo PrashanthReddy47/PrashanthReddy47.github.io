@@ -2,7 +2,7 @@
 date = "2024-11-19T14:52:27Z"
 title = "Rome Weather Analysis Project"
 draft = false
-image = "/img/portfolio/comprehensive_weather_analysis.png"
+image = "/img/portfolio/comprehensive-weather-analysis.png"
 showonlyimage = false
 weight = 2
 +++
@@ -25,7 +25,7 @@ A detailed analysis of Rome's changing climate using advanced data analysis and 
 
 ### Temperature Trends (1950-2022)
 
-![Temperature Trends](/img/portfolio/Temperature_Trends.png)
+![Temperature Trends](/img/portfolio/temperature-trends.png)
 
 - Clear seasonal temperature cycles identified
 - Long-term warming trend evident in the data
@@ -34,7 +34,7 @@ A detailed analysis of Rome's changing climate using advanced data analysis and 
 
 ### Precipitation Patterns
 
-![Monthly Precipitation](/img/portfolio/monthly_precipitation.png)
+![Monthly Precipitation](/img/portfolio/monthly-precipitation.png)
 
 - Highest rainfall in February (~225mm)
 - Driest month is September (~5mm)
