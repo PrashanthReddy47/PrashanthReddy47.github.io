@@ -26,6 +26,7 @@ A detailed analysis of Rome's changing climate using advanced data analysis and 
 ### Temperature Trends (1950-2022)
 
 ![Temperature Trends](../../img/portfolio/temperature-trends.png)
+![123](../../img/portfolio/temperature-trends.png)
 
 - Clear seasonal temperature cycles identified
 - Long-term warming trend evident in the data
