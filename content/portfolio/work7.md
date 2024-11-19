@@ -63,13 +63,12 @@ A detailed analysis of Rome's changing climate using advanced data analysis and 
 
 ### Model Performance
 
-| Model | R-squared (R²) |
-|-------|----------------|
-| Linear Regression | 0.884 |
-| Ridge Regression | 0.884 |
-| Lasso Regression | 0.838 |
-| Random Forest | 0.918 |
-
+| Model              | R-squared (R²) |
+|--------------------|----------------|
+| Linear Regression  | 0.884          |
+| Ridge Regression   | 0.884          |
+| Lasso Regression   | 0.838          |
+| Random Forest      | 0.918          |
 
 ---
 
