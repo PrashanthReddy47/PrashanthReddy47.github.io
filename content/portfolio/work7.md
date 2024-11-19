@@ -2,12 +2,10 @@
 date = "2024-11-15T19:41:01+05:30"
 title = "Rome Weather Analysis Project"
 draft = false
-image = "/img/portfolio/comprehensive_weather_analysis.png"
+image = "img/portfolio/comprehensive_weather_analysis.png"
 showonlyimage = false
 weight = 1
 +++
-
-# Rome Weather Analysis Project
 
 ## 📊 Comprehensive Climate Study (1950-2022)
 
