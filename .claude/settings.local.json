@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git clone:*)",
+      "Bash(hugo mod get:*)",
+      "Bash(where:*)",
+      "Bash(\"c:\\\\Users\\\\hacke\\\\PrashanthReddy47.github.io\\\\hugo.exe\" mod get -u)",
+      "Bash(dir:*)",
+      "Bash(copy \"c:\\\\Users\\\\hacke\\\\PrashanthReddy47.github.io\\\\static\\\\img\\\\portfolio\\\\stockmarket.png\" \"C:\\\\Users\\\\hacke\\\\new-portfolio\\\\content\\\\projects\\\\stock-price-prediction\\\\stockmarket.png\")",
+      "Bash(\"c:\\\\Users\\\\hacke\\\\PrashanthReddy47.github.io\\\\hugo.exe\" server --port 1314)"
+    ]
+  }
+}
