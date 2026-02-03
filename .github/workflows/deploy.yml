@@ -54,6 +54,14 @@ jobs:
       - name: Download Hugo Modules
         run: hugo mod get -u
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install TailwindCSS
+        run: npm install -g tailwindcss
+
       - name: Build with Hugo
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
