@@ -1,0 +1,160 @@
+/* Increase base font size for better readability */
+body {
+  font-size: 1.125rem; /* 18px instead of 16px */
+  line-height: 1.7;
+}
+
+/* Hero section typography */
+.hero-title {
+  font-size: 3.5rem !important;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.hero-lead {
+  font-size: 1.25rem !important;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Section headings */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+/* Reduce excessive padding */
+.home-section {
+  padding: 4rem 0;
+}
+
+.hero-lead {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* Project cards spacing */
+.article-metadata {
+  font-size: 0.95rem;
+}
+
+/* Improve link visibility */
+a {
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Publication links */
+.btn-links .btn {
+  margin: 0.25rem;
+  padding: 0.5rem 1rem;
+}
+
+/* Resume biography sections - clean styling for gradient background */
+.resume-biography-3 h1,
+.resume-biography-3 h2,
+.resume-biography-3 h3,
+.resume-biography-3 .lead,
+.resume-biography-3 p {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Education/interests boxes styling */
+.resume-biography-3 .card {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  padding: 1.5rem !important;
+}
+
+/* Education section styling */
+.resume-biography .card h3 {
+  font-size: 1.3rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.resume-biography .card p,
+.resume-biography .card li {
+  font-size: 1rem !important;
+  line-height: 1.7 !important;
+}
+
+/* Increase publication listing font sizes */
+.view-citation .article-title {
+  font-size: 1.4rem !important;
+  line-height: 1.4 !important;
+  margin-bottom: 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+.view-citation .article-metadata {
+  font-size: 1rem !important;
+  line-height: 1.6 !important;
+}
+
+.view-citation .article-style p,
+.view-citation .article-style {
+  font-size: 1rem !important;
+  line-height: 1.7 !important;
+}
+
+.view-citation .btn {
+  font-size: 0.9rem !important;
+  padding: 0.4rem 0.8rem !important;
+}
+
+/* Tighten project card spacing */
+.project-card {
+  margin-bottom: 1.5rem !important;
+}
+
+/* Adjust section title spacing */
+.section-heading {
+  margin-bottom: 2rem !important;
+}
+
+/* Adjust grid spacing */
+.article-grid .card {
+  margin-bottom: 1.5rem !important;
+}
+
+/* Compact biography section */
+.resume-biography {
+  padding: 3rem 0 !important;
+}
+
+/* Reduce hero section top padding/gap */
+.resume-biography-3 {
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+}
+
+.resume-biography-3 .container {
+  padding-top: 0 !important;
+}
+
+/* Reduce gap above Professional Summary heading */
+.resume-biography-3 h2,
+.resume-biography-3 .section-heading {
+  margin-top: 1rem !important;
+  padding-top: 0 !important;
+}
+
+/* Tighten avatar spacing */
+.resume-biography-3 .avatar {
+  margin-bottom: 1rem !important;
+}
