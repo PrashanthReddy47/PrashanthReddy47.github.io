@@ -1,0 +1,137 @@
+schema: hugoblox/author/v1
+slug: me
+is_owner: true
+name:
+  display: Prashanth Reddy Putta
+  given: Prashanth Reddy
+  family: Putta
+  alternate: ''
+  pronunciation: ''
+postnominals: []
+role: Independent Researcher & Geospatial Data Scientist
+bio: A Geospatial Data Scientist combining remote sensing, machine learning, and agricultural domain knowledge to address challenges in food security and environmental monitoring. Published peer-reviewed research achieving 93.3% accuracy in rice paddy mapping across 732,345 hectares in Telangana, India.
+
+affiliations:
+  - name: University of Pavia
+    url: https://www.unipv.it/
+
+links:
+  - icon: at-symbol
+    url: mailto:prashanthputtareddy@gmail.com
+    label: E-mail Me
+  - icon: brands/orcid
+    url: https://orcid.org/0009-0001-1376-2843
+  - icon: brands/github
+    url: https://github.com/PrashanthReddy47
+  - icon: brands/linkedin
+    url: https://www.linkedin.com/in/prashanthreddyputta/
+
+interests:
+  - Remote Sensing & Earth Observation
+  - Machine Learning for Agriculture
+  - Precision Agriculture
+  - Satellite Imagery Analysis
+  - Climate Change Monitoring
+
+education:
+  - degree: MSc Electronics Engineering (Space Communication & Sensing)
+    institution: University of Pavia
+    start: 2017-10
+    end: 2023-04
+    summary: |
+      Specialized in space communications and remote sensing. Thesis work on rice paddy
+      mapping using multi-temporal Sentinel-2 imagery achieved 90% classification accuracy.
+  - degree: BTech Electronics and Communications Engineering
+    institution: JNTUH College of Engineering Hyderabad
+    start: 2013
+    end: 2017
+    summary: |
+      Bachelor's degree in Electronics and Communications Engineering from Jawaharlal
+      Nehru Technological University Hyderabad.
+
+experience:
+  - role: Independent Researcher & Contract Lecturer
+    org: University of Pavia - Telecommunications & Remote Sensing Laboratory
+    location: Pavia, Italy
+    start: 2024-11-01
+    summary: |
+      Published peer-reviewed research achieving 93.3% accuracy in rice paddy mapping
+      across 732,345 hectares in Telangana, India.
+
+      **Teaching:**
+      * Contract lecturer: Remote Sensing for Agricultural Applications (12 hours)
+      * Pre-course instructor: Essential Skills for Remote Sensing and Geomatics (12 hours)
+      * Seminar series: Remote Sensing Applications - Theory to Practice (12 hours)
+
+      **Research Focus:**
+      * Advanced machine learning for agricultural monitoring
+      * Multi-temporal satellite imagery analysis
+      * Phenology-based crop classification
+  - role: Junior Data Analyst
+    org: eTek IT Services, Inc.
+    location: Chennai, India
+    start: 2020-01-01
+    end: 2021-12-31
+    summary: |
+      * Implemented ETL processes using IBM DataStage for legacy system integration
+      * Developed interactive Tableau dashboards for business metrics visualization
+      * Performed statistical analysis identifying trends driving business strategy
+      * Collaborated with data scientists on predictive model development
+  - role: Research Intern
+    org: CBK PAN Space Research Center
+    location: Warsaw, Poland
+    start: 2020-01-01
+    end: 2020-06-30
+    summary: |
+      Thesis project: Paddy Field Mapping in Nalgonda District using Sentinel-2 imagery
+      in Google Earth Engine. Developed novel methodology achieving 90% accuracy in rice
+      field classification with machine learning algorithms and spectral indices.
+
+skills:
+  - name: Geospatial & Remote Sensing
+    items:
+      - label: Google Earth Engine
+        level: 5
+      - label: Sentinel-2 Imagery Analysis
+        level: 5
+      - label: QGIS / ArcGIS
+        level: 4
+  - name: Programming & ML
+    items:
+      - label: Python
+        level: 5
+      - label: Machine Learning (scikit-learn)
+        level: 4
+      - label: Data Analysis (Pandas, NumPy)
+        level: 5
+  - name: Visualization & Reporting
+    items:
+      - label: Tableau
+        level: 4
+      - label: Matplotlib / Seaborn
+        level: 4
+      - label: Streamlit
+        level: 4
+
+languages:
+  - name: Telugu
+    level: 5
+    label: Native
+  - name: English
+    level: 5
+    label: Professional
+  - name: Hindi
+    level: 4
+    label: Professional
+  - name: Italian
+    level: 2
+    label: Elementary (A2)
+
+awards:
+  - title: Published Research in Environmental Challenges
+    awarder: Elsevier
+    date: "2025-01-01"
+    summary: |
+      Satellite-based Rabi rice paddy field mapping in India achieving 93.3% accuracy
+      across 732,345 hectares. DOI: 10.1016/j.envc.2025.101320
+    icon: hero/academic-cap

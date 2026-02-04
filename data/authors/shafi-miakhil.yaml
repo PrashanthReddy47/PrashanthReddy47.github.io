@@ -1,0 +1,12 @@
+schema: hugoblox/author/v1
+slug: shafi-miakhil
+name:
+  display: Shafi Ullah Miakhil
+  given: Shafi Ullah
+  family: Miakhil
+role: Researcher
+links:
+  - icon: brands/orcid
+    url: https://orcid.org/0000-0002-6755-429X
+  - icon: brands/linkedin
+    url: https://it.linkedin.com/in/shafiulllah-miakhil

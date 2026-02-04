@@ -1,0 +1,15 @@
+schema: hugoblox/author/v1
+slug: fabio-dellacqua
+name:
+  display: Fabio Dell'Acqua
+  given: Fabio
+  family: Dell'Acqua
+role: Professor
+affiliations:
+  - name: University of Pavia
+    url: https://www.unipv.it/
+links:
+  - icon: brands/orcid
+    url: https://orcid.org/0000-0002-0044-2998
+  - icon: academicons/google-scholar
+    url: http://tlclab.unipv.it/index.php/people/the-team?view=article&id=75&catid=23
