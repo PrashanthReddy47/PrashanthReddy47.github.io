@@ -1,0 +1,358 @@
+<style>
+/* ============================================
+   LAYOUT & SPACING (applies to both modes)
+   ============================================ */
+
+/* Hero section padding */
+main > section:first-child,
+.page-body > section:first-child,
+[class*="biography"] {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+/* Professional Summary heading */
+[class*="biography"] h2,
+main > section:first-child h2 {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+  padding-top: 0 !important;
+}
+
+/* Container padding */
+[class*="biography"] .container,
+[class*="biography"] > div {
+  padding-top: 0 !important;
+  gap: 1rem !important;
+}
+
+/* Avatar spacing */
+[class*="avatar"],
+.rounded-full {
+  margin-bottom: 0.75rem !important;
+}
+
+/* Section gaps */
+main > section,
+.page-body > section {
+  padding-top: 2.5rem !important;
+  padding-bottom: 2.5rem !important;
+}
+
+/* Flex gaps */
+[class*="flex"][class*="col"] {
+  gap: 1rem !important;
+}
+
+/* Grid spacing */
+[class*="grid"] {
+  gap: 1.5rem !important;
+}
+
+/* Base typography */
+body {
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+/* Hide social share buttons */
+[class*="share"],
+[class*="social-icon"],
+.page-share,
+.article-share,
+a[href*="twitter.com/intent"],
+a[href*="facebook.com/sharer"],
+a[href*="linkedin.com/share"],
+a[aria-label*="share"],
+a[aria-label*="twitter"],
+a[aria-label*="facebook"],
+a[title*="Share"],
+a[title*="Twitter"],
+a[title*="Facebook"],
+.article-footer [class*="share"],
+.page-footer [class*="share"],
+footer [class*="social"] {
+  display: none !important;
+}
+
+/* ============================================
+   DARK MODE STYLES
+   ============================================ */
+.dark body,
+html.dark body,
+[data-theme="dark"] body {
+  background-color: #0f172a;
+  color: #e5e7eb;
+}
+
+/* Dark mode - Hero section */
+.dark [class*="biography"],
+html.dark [class*="biography"],
+[data-theme="dark"] [class*="biography"] {
+  background: linear-gradient(to bottom, #1e3a8a, #0f172a) !important;
+}
+
+.dark [class*="biography"] h1,
+.dark [class*="biography"] h2,
+.dark [class*="biography"] h3,
+.dark [class*="biography"] p,
+.dark [class*="biography"] li,
+.dark [class*="biography"] span,
+.dark [class*="biography"] a,
+.dark [class*="biography"] div,
+html.dark [class*="biography"] h1,
+html.dark [class*="biography"] h2,
+html.dark [class*="biography"] h3,
+html.dark [class*="biography"] p,
+html.dark [class*="biography"] li,
+html.dark [class*="biography"] span,
+html.dark [class*="biography"] a,
+html.dark [class*="biography"] div {
+  color: #ffffff !important;
+}
+
+/* Dark mode - Cards in hero */
+.dark [class*="biography"] .card,
+.dark [class*="biography"] [class*="card"],
+html.dark [class*="biography"] .card,
+html.dark [class*="biography"] [class*="card"] {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+/* Dark mode - Content sections outside hero */
+.dark section:not([class*="biography"]) h1,
+.dark section:not([class*="biography"]) h2,
+.dark section:not([class*="biography"]) h3,
+html.dark section:not([class*="biography"]) h1,
+html.dark section:not([class*="biography"]) h2,
+html.dark section:not([class*="biography"]) h3 {
+  color: #f3f4f6 !important;
+}
+
+.dark section:not([class*="biography"]) p,
+.dark section:not([class*="biography"]) li,
+.dark section:not([class*="biography"]) span,
+html.dark section:not([class*="biography"]) p,
+html.dark section:not([class*="biography"]) li,
+html.dark section:not([class*="biography"]) span {
+  color: #d1d5db !important;
+}
+
+.dark section:not([class*="biography"]) a,
+html.dark section:not([class*="biography"]) a {
+  color: #93c5fd !important;
+}
+
+.dark .card,
+html.dark .card {
+  background: #1e293b !important;
+  color: #e5e7eb !important;
+}
+
+/* ============================================
+   LIGHT MODE STYLES
+   ============================================ */
+html:not(.dark) body,
+[data-theme="light"] body {
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+/* Light mode - Hero section (white background, dark text) */
+html:not(.dark) [class*="biography"],
+[data-theme="light"] [class*="biography"] {
+  background: #f8fafc !important;
+}
+
+html:not(.dark) [class*="biography"] h1,
+html:not(.dark) [class*="biography"] h2,
+html:not(.dark) [class*="biography"] h3,
+[data-theme="light"] [class*="biography"] h1,
+[data-theme="light"] [class*="biography"] h2,
+[data-theme="light"] [class*="biography"] h3 {
+  color: #111827 !important;
+}
+
+html:not(.dark) [class*="biography"] p,
+html:not(.dark) [class*="biography"] li,
+html:not(.dark) [class*="biography"] span,
+html:not(.dark) [class*="biography"] div,
+[data-theme="light"] [class*="biography"] p,
+[data-theme="light"] [class*="biography"] li,
+[data-theme="light"] [class*="biography"] span,
+[data-theme="light"] [class*="biography"] div {
+  color: #374151 !important;
+}
+
+html:not(.dark) [class*="biography"] a,
+[data-theme="light"] [class*="biography"] a {
+  color: #1e40af !important;
+}
+
+html:not(.dark) [class*="biography"] a:hover,
+[data-theme="light"] [class*="biography"] a:hover {
+  color: #1e3a8a !important;
+}
+
+/* Light mode - Cards in hero */
+html:not(.dark) [class*="biography"] .card,
+html:not(.dark) [class*="biography"] [class*="card"],
+[data-theme="light"] [class*="biography"] .card,
+[data-theme="light"] [class*="biography"] [class*="card"] {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  border: 1px solid #e5e7eb;
+}
+
+html:not(.dark) [class*="biography"] .card h3,
+html:not(.dark) [class*="biography"] [class*="card"] h3,
+[data-theme="light"] [class*="biography"] .card h3,
+[data-theme="light"] [class*="biography"] [class*="card"] h3 {
+  color: #111827 !important;
+}
+
+html:not(.dark) [class*="biography"] .card p,
+html:not(.dark) [class*="biography"] .card li,
+html:not(.dark) [class*="biography"] .card span,
+[data-theme="light"] [class*="biography"] .card p,
+[data-theme="light"] [class*="biography"] .card li,
+[data-theme="light"] [class*="biography"] .card span {
+  color: #374151 !important;
+}
+
+/* Light mode - Icons in hero section */
+html:not(.dark) [class*="biography"] svg,
+html:not(.dark) [class*="biography"] [class*="icon"],
+[data-theme="light"] [class*="biography"] svg,
+[data-theme="light"] [class*="biography"] [class*="icon"] {
+  color: #1e40af !important;
+  fill: #1e40af !important;
+}
+
+/* Light mode - Social icons */
+html:not(.dark) [class*="biography"] a svg,
+html:not(.dark) [class*="biography"] a [class*="icon"],
+[data-theme="light"] [class*="biography"] a svg,
+[data-theme="light"] [class*="biography"] a [class*="icon"] {
+  color: #1e40af !important;
+  fill: currentColor !important;
+}
+
+html:not(.dark) [class*="biography"] a:hover svg,
+html:not(.dark) [class*="biography"] a:hover [class*="icon"],
+[data-theme="light"] [class*="biography"] a:hover svg,
+[data-theme="light"] [class*="biography"] a:hover [class*="icon"] {
+  color: #1e3a8a !important;
+}
+
+/* Remove all borders in biography section for cleaner look */
+html:not(.dark) [class*="biography"] div,
+html:not(.dark) [class*="biography"] [class*="card"],
+[data-theme="light"] [class*="biography"] div,
+[data-theme="light"] [class*="biography"] [class*="card"] {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Light mode - Education cards - use attribute selector for Tailwind classes with special chars */
+html:not(.dark) [class*="biography"] [class*="bg-gray-800"],
+html:not(.dark) [class*="biography"] [class*="backdrop-blur"],
+[data-theme="light"] [class*="biography"] [class*="bg-gray-800"],
+[data-theme="light"] [class*="biography"] [class*="backdrop-blur"] {
+  background: linear-gradient(135deg, #1e40af, #0891b2) !important;
+}
+
+/* Light mode - Education card text white */
+html:not(.dark) [class*="biography"] [class*="bg-gray-800"] *,
+html:not(.dark) [class*="biography"] [class*="backdrop-blur"] *,
+[data-theme="light"] [class*="biography"] [class*="bg-gray-800"] *,
+[data-theme="light"] [class*="biography"] [class*="backdrop-blur"] * {
+  color: #ffffff !important;
+}
+
+/* Light mode - Education card icons white */
+html:not(.dark) [class*="biography"] [class*="bg-gray-800"] svg,
+html:not(.dark) [class*="biography"] [class*="backdrop-blur"] svg,
+[data-theme="light"] [class*="biography"] [class*="bg-gray-800"] svg,
+[data-theme="light"] [class*="biography"] [class*="backdrop-blur"] svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+/* Light mode - Interests badges readable */
+html:not(.dark) [class*="biography"] [class*="from-primary"],
+html:not(.dark) [class*="biography"] [class*="bg-gradient"],
+html:not(.dark) [class*="biography"] [class*="bg-primary"],
+[data-theme="light"] [class*="biography"] [class*="from-primary"],
+[data-theme="light"] [class*="biography"] [class*="bg-gradient"],
+[data-theme="light"] [class*="biography"] [class*="bg-primary"] {
+  background: linear-gradient(135deg, #1e40af, #0891b2) !important;
+  color: #ffffff !important;
+}
+
+/* Light mode - View Projects button */
+html:not(.dark) [class*="biography"] button,
+html:not(.dark) [class*="biography"] [class*="btn"],
+html:not(.dark) [class*="biography"] a[class*="btn"],
+[data-theme="light"] [class*="biography"] button,
+[data-theme="light"] [class*="biography"] [class*="btn"],
+[data-theme="light"] [class*="biography"] a[class*="btn"] {
+  background: #1e40af !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+html:not(.dark) [class*="biography"] button:hover,
+html:not(.dark) [class*="biography"] [class*="btn"]:hover,
+[data-theme="light"] [class*="biography"] button:hover,
+[data-theme="light"] [class*="biography"] [class*="btn"]:hover {
+  background: #1e3a8a !important;
+}
+
+/* Light mode - Content sections outside hero */
+html:not(.dark) section:not([class*="biography"]) h1,
+html:not(.dark) section:not([class*="biography"]) h2,
+html:not(.dark) section:not([class*="biography"]) h3,
+[data-theme="light"] section:not([class*="biography"]) h1,
+[data-theme="light"] section:not([class*="biography"]) h2,
+[data-theme="light"] section:not([class*="biography"]) h3 {
+  color: #111827 !important;
+}
+
+html:not(.dark) section:not([class*="biography"]) p,
+html:not(.dark) section:not([class*="biography"]) li,
+html:not(.dark) section:not([class*="biography"]) span,
+[data-theme="light"] section:not([class*="biography"]) p,
+[data-theme="light"] section:not([class*="biography"]) li,
+[data-theme="light"] section:not([class*="biography"]) span {
+  color: #374151 !important;
+}
+
+html:not(.dark) section:not([class*="biography"]) a,
+[data-theme="light"] section:not([class*="biography"]) a {
+  color: #1e40af !important;
+}
+
+html:not(.dark) section:not([class*="biography"]) a:hover,
+[data-theme="light"] section:not([class*="biography"]) a:hover {
+  color: #1e3a8a !important;
+}
+
+/* Light mode - Cards outside hero */
+html:not(.dark) .card:not([class*="biography"] .card),
+[data-theme="light"] .card:not([class*="biography"] .card) {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  border: 1px solid #e5e7eb;
+}
+
+html:not(.dark) .card p,
+html:not(.dark) .card li,
+html:not(.dark) .card span,
+[data-theme="light"] .card p,
+[data-theme="light"] .card li,
+[data-theme="light"] .card span {
+  color: #374151 !important;
+}
+</style>
