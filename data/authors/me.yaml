@@ -91,19 +91,19 @@ skills:
   - name: Geospatial & Remote Sensing
     items:
       - label: Google Earth Engine
-        level: 5
+        level: 4
       - label: Sentinel-2 Imagery Analysis
-        level: 5
+        level: 4
       - label: QGIS / ArcGIS
         level: 4
   - name: Programming & ML
     items:
       - label: Python
-        level: 5
+        level: 4
       - label: Machine Learning (scikit-learn)
         level: 4
       - label: Data Analysis (Pandas, NumPy)
-        level: 5
+        level: 4
   - name: Visualization & Reporting
     items:
       - label: Tableau
@@ -114,18 +114,15 @@ skills:
         level: 4
 
 languages:
-  - name: Telugu
-    level: 5
-    label: Native
   - name: English
     level: 5
     label: Professional
+  - name: Italian
+    level: 3
+    label: Intermediate (B1)
   - name: Hindi
     level: 4
     label: Professional
-  - name: Italian
-    level: 2
-    label: Elementary (A2)
 
 awards:
   - title: Published Research in Environmental Challenges
