@@ -1,7 +1,7 @@
 ---
 title: DMS to GEE Coordinate Converter
 date: 2025-01-20
-weight: 4
+weight: 5
 share: false
 show_related: false
 image:

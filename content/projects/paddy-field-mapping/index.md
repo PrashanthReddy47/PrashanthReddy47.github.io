@@ -1,7 +1,7 @@
 ---
 title: Paddy Field Mapping using NDVI Thresholding and Machine Learning
 date: 2024-02-15
-weight: 2
+weight: 3
 share: false
 show_related: false
 links:

@@ -1,7 +1,7 @@
 ---
 title: Multi-Sensor Land Cover Classification in the Pavia Region Using Google Earth Engine
 date: 2023-12-31
-weight: 1
+weight: 2
 share: false
 show_related: false
 tags:
