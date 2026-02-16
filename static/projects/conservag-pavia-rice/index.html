@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satellite-Based Conservation Agriculture Monitoring Using Sentinel-1 SAR and Sentinel-2 | Pavia Rice Fields</title>
+    <meta name="description" content="SAR-based crop residue detection, winter flooding classification, and cover crop mapping in 75 rice paddies using Sentinel-1 radar and Sentinel-2 optical time series. Random Forest achieves F1=0.85 with SHAP explainability for agriculture remote sensing. Pavia Province, Lombardy, Italy.">
+    <meta name="keywords" content="conservation agriculture, SAR rice paddy, crop residue detection, Sentinel-1, Sentinel-2, SHAP explainability agriculture, remote sensing classification, winter flooding detection, cover crop mapping, Random Forest, spatial block cross-validation, Google Earth Engine, carbon estimation agriculture">
+    <meta name="author" content="Prashanth Reddy Putta">
+    <link rel="canonical" href="https://prashanthreddy47.github.io/conservag-pavia-rice/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Satellite-Based Conservation Agriculture Monitoring Using Sentinel-1 SAR and Sentinel-2">
+    <meta property="og:description" content="SAR-only Random Forest achieves F1=0.85 classifying post-harvest management in Pavia rice fields — outperforming optical (F1=0.70). SHAP-explained, spatially validated proof-of-concept.">
+    <meta property="og:image" content="https://prashanthreddy47.github.io/conservag-pavia-rice/images/pavia_thumbnail.png">
+    <meta property="og:url" content="https://prashanthreddy47.github.io/conservag-pavia-rice/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Prashanth Reddy Putta — Portfolio">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Satellite-Based Conservation Agriculture Monitoring Using Sentinel-1 SAR and Sentinel-2">
+    <meta name="twitter:description" content="SAR-only Random Forest achieves F1=0.85 classifying post-harvest management in Pavia rice fields — outperforming optical (F1=0.70).">
+    <meta name="twitter:image" content="https://prashanthreddy47.github.io/conservag-pavia-rice/images/pavia_thumbnail.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f7f5f2;
+            color: #2c2c2c;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Source Serif 4', serif; font-weight: 700; }
+
+        a { color: #2471a3; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 420px;
+            overflow: hidden;
+        }
+        .hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.7) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 48px;
+        }
+        .hero-overlay h1 {
+            color: #fff;
+            font-size: 2.4rem;
+            line-height: 1.2;
+            max-width: 720px;
+        }
+        .hero-overlay .subtitle {
+            color: rgba(255,255,255,0.85);
+            font-size: 1.05rem;
+            margin-top: 10px;
+            max-width: 640px;
+        }
+        .hero-overlay .tags {
+            margin-top: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .hero-overlay .tag {
+            background: rgba(255,255,255,0.18);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Sections */
+        section { padding: 56px 0; }
+        section + section { border-top: 1px solid #e0dcd6; }
+        section h2 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+        section h3 {
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+            color: #333;
+        }
+        p + p { margin-top: 12px; }
+
+        /* Cards */
+        .card-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .card .value {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .card .label {
+            font-size: 0.88rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .card-sar .value { color: #2471a3; }
+        .card-optical .value { color: #2b6e3f; }
+        .card-ml .value { color: #a0522d; }
+
+        /* Pipeline steps */
+        .pipeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .step {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px 22px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            position: relative;
+            padding-left: 56px;
+        }
+        .step-num {
+            position: absolute;
+            left: 18px;
+            top: 20px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #2471a3;
+            color: #fff;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .step strong { display: block; margin-bottom: 4px; font-size: 0.95rem; }
+        .step span { font-size: 0.85rem; color: #555; }
+
+        /* Images */
+        .fig {
+            margin: 24px 0;
+            text-align: center;
+        }
+        .fig img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        .fig figcaption {
+            font-size: 0.84rem;
+            color: #777;
+            margin-top: 8px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 0.92rem;
+        }
+        thead th {
+            background: #eae7e1;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.84rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        tbody td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e8e5df;
+        }
+        tbody tr:last-child td { border-bottom: none; }
+
+        .class-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        /* Tag pills */
+        .pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .pill {
+            background: #fff;
+            border: 1px solid #d6d1ca;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #444;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid #e0dcd6;
+            text-align: center;
+            font-size: 0.88rem;
+            color: #888;
+        }
+        footer a { color: #2471a3; }
+        footer p + p { margin-top: 6px; }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hero { height: 300px; }
+            .hero-overlay { padding: 24px; }
+            .hero-overlay h1 { font-size: 1.6rem; }
+            section { padding: 36px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+    <img src="images/pavia_thumbnail.png" alt="Sentinel-2 RGB composite of rice paddy fields in Pavia Province, Lombardy, Italy — study area for SAR-based conservation agriculture classification">
+    <div class="hero-overlay">
+        <h1>Satellite-Based Conservation Agriculture Monitoring Using Sentinel-1 SAR and Sentinel-2 in Pavia Rice Fields</h1>
+        <p class="subtitle">SAR-based remote sensing and machine learning to classify post-harvest management practices across 75 rice fields in Lombardy, Italy.</p>
+        <div class="tags">
+            <span class="tag">Sentinel-1 SAR</span>
+            <span class="tag">Sentinel-2 Optical</span>
+            <span class="tag">Random Forest</span>
+            <span class="tag">Google Earth Engine</span>
+            <span class="tag">SHAP Explainability</span>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+<!-- Objective -->
+<section>
+    <h2>Objective</h2>
+    <p>This project investigates whether satellite remote sensing can distinguish conservation agriculture practices, cover cropping, residue retention, and winter flooding, from conventional tillage in rice paddies, using only freely available Sentinel-1 (SAR) and Sentinel-2 (optical) imagery.</p>
+    <p>The study covers <strong>75 rice fields</strong> (382 ha) in Pavia Province, Lombardy, Italy, over one agricultural season from <strong>May 2020 to March 2021</strong>. No ground-truth labels were available; pseudo-labels were derived through unsupervised clustering and physical signature interpretation. This is a <strong>proof-of-concept</strong>, not an operational system.</p>
+</section>
+
+<!-- Data & Field Selection -->
+<section>
+    <h2>Data &amp; Field Selection</h2>
+    <p>Fields were selected through a multi-step filtering pipeline: DUSAF 2021 rice polygons filtered to 0.5–11 ha, cross-validated with SIARL 2020 records, stratified by area quartiles, and spatially spread on a 500 m grid to ensure geographic diversity, yielding 75 fields.</p>
+    <p>Sentinel-2 Surface Reflectance (10–20 m, ~5-day revisit) provided NDVI, NDTI, BSI, and NDRE indices. Sentinel-1 GRD (C-band, 10 m, 12-day revisit) provided VV and VH backscatter. December 2020 had <strong>zero usable Sentinel-2 images</strong> due to persistent Po Valley fog, SAR provided continuous coverage through this critical winter window.</p>
+</section>
+
+<!-- Methodology -->
+<section>
+    <h2>Methodology</h2>
+    <div class="pipeline">
+        <div class="step">
+            <div class="step-num">1</div>
+            <strong>Field Selection</strong>
+            <span>DUSAF + SIARL filtering, area stratification, 500 m grid spacing → 75 fields</span>
+        </div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <strong>Feature Extraction</strong>
+            <span>151 features from 5 temporal windows (harvest, early/mid/late post-harvest, recovery) via GEE</span>
+        </div>
+        <div class="step">
+            <div class="step-num">3</div>
+            <strong>Pseudo-Labeling</strong>
+            <span>K-Means + GMM + DBSCAN clustering, physical signature interpretation to assign 4 management classes</span>
+        </div>
+        <div class="step">
+            <div class="step-num">4</div>
+            <strong>Classification</strong>
+            <span>RF, XGBoost, SVM across SAR-only, Optical-only, and Fusion feature sets</span>
+        </div>
+        <div class="step">
+            <div class="step-num">5</div>
+            <strong>Spatial Block CV</strong>
+            <span>4 geographic quadrants to prevent spatial autocorrelation leakage</span>
+        </div>
+        <div class="step">
+            <div class="step-num">6</div>
+            <strong>Explainability &amp; Impact</strong>
+            <span>SHAP feature importance, IPCC Tier 1 carbon impact estimation</span>
+        </div>
+    </div>
+</section>
+
+<!-- Temporal Profiles -->
+<section>
+    <h2>Temporal Profiles</h2>
+    <p>Multi-temporal signatures across the five analysis windows reveal distinct physical behaviors for each management class. Cover crops show strong NDVI recovery in winter, flooded fields exhibit characteristic low backscatter, and residue retention is marked by elevated NDTI and VH/VV ratios.</p>
+    <figure class="fig">
+        <img src="images/fig_temporal_profiles.png" alt="Multi-temporal NDVI, NDTI, VH, and VV profiles for rice paddy conservation agriculture classes including crop residue retention, winter flooding, cover crop, and conventional tillage across five analysis windows">
+        <figcaption>Temporal profiles of spectral and SAR indices across management classes and analysis windows.</figcaption>
+    </figure>
+</section>
+
+<!-- Key Result -->
+<section>
+    <h2>Key Result: SAR Outperforms Optical</h2>
+    <p>The SAR-only Random Forest achieved a weighted F1 of <strong>0.85</strong>, substantially outperforming the optical-only model (F1 = 0.70). Fusion of both sensor types did not improve over SAR alone. This result reflects SAR's ability to penetrate cloud cover and capture structural surface properties critical for distinguishing post-harvest management.</p>
+
+    <div class="card-row">
+        <div class="card card-sar">
+            <div class="value">0.85</div>
+            <div class="label">SAR-only F1 (weighted)</div>
+        </div>
+        <div class="card card-optical">
+            <div class="value">0.70</div>
+            <div class="label">Optical-only F1 (weighted)</div>
+        </div>
+        <div class="card card-ml">
+            <div class="value">Random Forest</div>
+            <div class="label">Best classifier</div>
+        </div>
+    </div>
+
+    <figure class="fig">
+        <img src="images/fig_sensor_comparison.png" alt="Classification performance comparison of Sentinel-1 SAR-only, Sentinel-2 optical-only, and SAR-optical fusion using Random Forest, XGBoost, and SVM — SAR achieves F1 0.85 vs optical F1 0.70">
+        <figcaption>Classification performance across sensor configurations and classifiers. SAR-only consistently outperforms optical and fusion.</figcaption>
+    </figure>
+</section>
+
+<!-- Classification Results -->
+<section>
+    <h2>Classification Results</h2>
+    <p>The spatial distribution of predicted management classes across the 75 study fields. Class assignments were derived from the best-performing SAR-only Random Forest model.</p>
+
+    <figure class="fig">
+        <img src="images/fig_spatial_map.png" alt="Spatial classification map of conservation agriculture practices across 75 rice fields in Pavia Province showing residue retention, winter flooding, cover crop, and conventional tillage">
+        <figcaption>Spatial distribution of predicted conservation agriculture practices across Pavia Province.</figcaption>
+    </figure>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Management Class</th>
+                <th>Fields</th>
+                <th>Area (ha)</th>
+                <th>Key Signature</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="class-dot" style="background:#F39C12"></span>Residue Retention</td>
+                <td>35</td>
+                <td>169</td>
+                <td>High NDTI, elevated VH/VV ratio</td>
+            </tr>
+            <tr>
+                <td><span class="class-dot" style="background:#3498DB"></span>Winter Flooding</td>
+                <td>23</td>
+                <td>132</td>
+                <td>Low VH backscatter, specular reflection</td>
+            </tr>
+            <tr>
+                <td><span class="class-dot" style="background:#E74C3C"></span>Conventional Tillage</td>
+                <td>15</td>
+                <td>71</td>
+                <td>Bare soil BSI signal, no winter recovery</td>
+            </tr>
+            <tr>
+                <td><span class="class-dot" style="background:#2ECC71"></span>Cover Crop</td>
+                <td>2</td>
+                <td>10</td>
+                <td>Strong winter NDVI recovery</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- SHAP -->
+<section>
+    <h2>SHAP Explainability</h2>
+    <p>SHAP analysis confirms that the model relies on physically meaningful features. The VH/VV polarization ratio is the top predictor overall, while different management classes are detected through different physical mechanisms, flooding through low backscatter, residue through surface roughness, and cover crops through vegetation indices.</p>
+    <figure class="fig">
+        <img src="images/fig_shap_per_class.png" alt="SHAP explainability analysis showing feature importance per conservation agriculture class — VH/VV polarization ratio as top SAR feature for crop residue detection and winter flooding classification">
+        <figcaption>SHAP feature importance per management class. Each class is detected through distinct physical mechanisms.</figcaption>
+    </figure>
+</section>
+
+<!-- Carbon Impact -->
+<section>
+    <h2>Carbon Impact Estimation</h2>
+    <p>Using IPCC Tier 1 literature values (not field measurements), conservation practices across the 382 ha study area would correspond to the following estimated impacts. These are <strong>indicative estimates</strong> based on published emission factors, not site-specific measurements.</p>
+
+    <div class="card-row">
+        <div class="card card-sar">
+            <div class="value">333</div>
+            <div class="label">tCO₂eq/yr reduction</div>
+        </div>
+        <div class="card card-optical">
+            <div class="value">42</div>
+            <div class="label">tC/yr sequestered</div>
+        </div>
+        <div class="card card-ml">
+            <div class="value">0.87</div>
+            <div class="label">tCO₂eq/ha/yr average</div>
+        </div>
+    </div>
+
+    <figure class="fig">
+        <img src="images/fig_carbon_impact.png" alt="IPCC Tier 1 carbon impact estimation showing CO2-equivalent reduction and soil organic carbon gain for rice paddy conservation agriculture practices including residue retention, winter flooding, and cover crop">
+        <figcaption>Estimated CO₂-equivalent reduction and soil organic carbon gain by management practice (IPCC Tier 1 literature values).</figcaption>
+    </figure>
+</section>
+
+<!-- Limitations -->
+<section>
+    <h2>Limitations &amp; Next Steps</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Limitation</th>
+                <th>Impact</th>
+                <th>Next Step</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Pseudo-labels from clustering</td>
+                <td>Circular validation risk, model may learn cluster artifacts</td>
+                <td>Collect field-verified ground truth for independent validation</td>
+            </tr>
+            <tr>
+                <td>Small sample (75 fields)</td>
+                <td>Limited generalizability, especially for cover crop (n=2)</td>
+                <td>Expand to additional provinces and seasons</td>
+            </tr>
+            <tr>
+                <td>Single season (2020–21)</td>
+                <td>Temporal signatures may vary across years</td>
+                <td>Multi-year analysis to assess robustness</td>
+            </tr>
+            <tr>
+                <td>Literature-based carbon factors</td>
+                <td>Not site-specific, inherently uncertain</td>
+                <td>Partner with agronomists for in-situ measurements</td>
+            </tr>
+            <tr>
+                <td>No independent test set</td>
+                <td>Performance may be overestimated</td>
+                <td>Reserve held-out fields or use external validation data</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- Tools & Skills -->
+<section>
+    <h2>Tools &amp; Skills</h2>
+    <div class="pills">
+        <span class="pill">Google Earth Engine</span>
+        <span class="pill">Python</span>
+        <span class="pill">scikit-learn</span>
+        <span class="pill">XGBoost</span>
+        <span class="pill">SHAP</span>
+        <span class="pill">Sentinel-1 SAR</span>
+        <span class="pill">Sentinel-2 MSI</span>
+        <span class="pill">Pandas</span>
+        <span class="pill">Matplotlib</span>
+        <span class="pill">Seaborn</span>
+        <span class="pill">Remote Sensing</span>
+        <span class="pill">Spatial Block CV</span>
+        <span class="pill">Unsupervised Clustering</span>
+        <span class="pill">Feature Engineering</span>
+        <span class="pill">IPCC Carbon Accounting</span>
+    </div>
+</section>
+
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <p><strong>Prashanth Reddy Putta</strong> · University of Pavia, Telecommunications &amp; Remote Sensing Lab</p>
+        <p>
+            <a href="https://github.com/prashanthreddy47/conservag-pavia-rice">GitHub Repository</a> ·
+            <a href="https://prashanthreddy47.github.io">Back to Portfolio</a>
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -4,9 +4,10 @@ date: 2025-02-16
 weight: 1
 share: false
 show_related: false
+_build:
+  render: never
+  list: always
 links:
-  - name: Project Page
-    url: 'https://prashanthreddy47.github.io/conservag-pavia-rice/'
   - name: View on GitHub
     url: 'https://github.com/prashanthreddy47/conservag-pavia-rice'
 tags:
