@@ -4,6 +4,7 @@ date: 2025-02-16
 weight: 1
 share: false
 show_related: false
+external_link: "/projects/conservag-pavia-rice/"
 _build:
   render: never
   list: always
