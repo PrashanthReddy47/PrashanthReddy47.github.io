@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rice Paddy Mapping Framework | Prashanth Reddy Putta</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #060b14;
+  --bg-secondary: #0c1220;
+  --bg-card: #111827;
+  --bg-card-hover: #162032;
+  --accent: #10b981;
+  --accent-dim: #059669;
+  --accent-glow: rgba(16, 185, 129, 0.15);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border: #1e293b;
+  --border-accent: rgba(16, 185, 129, 0.3);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 17px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* Noise texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: rgba(6, 11, 20, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+  padding: 1rem 0;
+}
+nav .container { display: flex; justify-content: space-between; align-items: center; }
+nav .logo { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; color: var(--accent); letter-spacing: 2px; font-weight: 700; }
+nav .nav-links a {
+  color: var(--text-secondary); text-decoration: none; margin-left: 2rem;
+  font-size: 0.95rem; letter-spacing: 0.5px; transition: color 0.3s;
+}
+nav .nav-links a:hover { color: var(--accent); }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh; display: flex; align-items: center;
+  position: relative; padding-top: 5rem;
+}
+.hero::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(16, 185, 129, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(5, 150, 105, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem; color: var(--accent); letter-spacing: 3px;
+  text-transform: uppercase; margin-bottom: 1.5rem;
+  display: inline-flex; align-items: center; gap: 0.75rem;
+}
+.hero-tag::before { content: ''; width: 40px; height: 1px; background: var(--accent); }
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 4.2rem);
+  line-height: 1.15; margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--accent) 0%, #34d399 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-desc { font-size: 1.2rem; color: var(--text-secondary); max-width: 650px; margin-bottom: 2.5rem; }
+.hero-meta {
+  display: flex; gap: 2rem; flex-wrap: wrap;
+  font-size: 1rem; color: var(--text-muted);
+}
+.hero-meta span { display: flex; align-items: center; gap: 0.5rem; }
+.hero-meta .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+/* ─── STATS BAR ─── */
+.stats-bar {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px; background: var(--border); margin: 0 -2rem;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.stat-item {
+  background: var(--bg-secondary); padding: 2.5rem 2rem;
+  text-align: center; transition: background 0.3s;
+}
+.stat-item:hover { background: var(--bg-card); }
+.stat-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2.2rem; font-weight: 700; color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+.stat-label { font-size: 0.9rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+
+/* ─── SECTIONS ─── */
+section { padding: 6rem 0; }
+.section-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem; color: var(--accent); letter-spacing: 3px;
+  text-transform: uppercase; margin-bottom: 0.75rem;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem; margin-bottom: 1rem;
+}
+.section-desc { color: var(--text-secondary); max-width: 700px; margin-bottom: 3rem; }
+
+/* ─── ARCHITECTURE DIAGRAM ─── */
+.arch-section { background: var(--bg-secondary); padding: 6rem 0; }
+.arch-diagram {
+  position: relative; padding: 2rem 0;
+  display: flex; flex-direction: column; gap: 1.5rem;
+}
+.arch-row {
+  display: flex; justify-content: center; gap: 1rem;
+  flex-wrap: wrap; position: relative;
+}
+.arch-node {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.2rem 1.5rem;
+  min-width: 180px; text-align: center;
+  transition: all 0.3s; position: relative;
+  cursor: default;
+}
+.arch-node:hover {
+  border-color: var(--border-accent);
+  box-shadow: 0 0 30px var(--accent-glow);
+  transform: translateY(-2px);
+}
+.arch-node .node-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.arch-node .node-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.25rem; }
+.arch-node .node-detail { font-size: 0.7rem; color: var(--text-muted); }
+.arch-node.primary { border-color: var(--accent); background: rgba(16, 185, 129, 0.05); }
+.arch-node.primary .node-title { color: var(--accent); }
+
+.arch-connector {
+  display: flex; justify-content: center; padding: 0.25rem 0;
+}
+.arch-arrow {
+  width: 2px; height: 30px;
+  background: linear-gradient(180deg, var(--accent), transparent);
+  position: relative;
+}
+.arch-arrow::after {
+  content: ''; position: absolute; bottom: -5px; left: -4px;
+  border-left: 5px solid transparent; border-right: 5px solid transparent;
+  border-top: 6px solid var(--accent);
+}
+.arch-phase-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; color: var(--accent); letter-spacing: 2px;
+  text-transform: uppercase; text-align: center; margin-bottom: 0.5rem;
+  opacity: 0.7;
+}
+
+/* Horizontal sub-nodes */
+.arch-sub-row {
+  display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;
+}
+.arch-sub-node {
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  border-radius: 6px; padding: 0.6rem 1rem;
+  font-size: 0.72rem; color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+  transition: all 0.3s;
+}
+.arch-sub-node:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ─── METHODOLOGY CARDS ─── */
+.method-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.method-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 2rem;
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+.method-card::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%; background: var(--accent); opacity: 0;
+  transition: opacity 0.3s;
+}
+.method-card:hover { border-color: var(--border-accent); transform: translateY(-3px); }
+.method-card:hover::before { opacity: 1; }
+.method-card .card-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem; color: var(--accent); margin-bottom: 1rem;
+}
+.method-card h3 { font-size: 1.1rem; margin-bottom: 0.75rem; }
+.method-card p { font-size: 1rem; color: var(--text-secondary); line-height: 1.75; }
+
+/* ─── RESULTS GALLERY ─── */
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }
+.result-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; transition: all 0.3s;
+}
+.result-card:hover { border-color: var(--border-accent); transform: translateY(-3px); }
+.result-card img { width: 100%; height: 250px; object-fit: cover; display: block; }
+.result-card .result-info { padding: 1.25rem; }
+.result-card h4 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+.result-card p { font-size: 0.95rem; color: var(--text-secondary); }
+
+/* Full width result */
+.result-card.full { grid-column: 1 / -1; }
+.result-card.full img { height: 400px; object-fit: contain; background: var(--bg-secondary); padding: 1rem; }
+
+/* ─── TECH STACK ─── */
+.tech-grid {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+}
+.tech-tag {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.7rem 1.3rem;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+  color: var(--text-secondary); transition: all 0.3s;
+}
+.tech-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ─── VALIDATION TABLE ─── */
+.val-table {
+  width: 100%; border-collapse: collapse; margin: 2rem 0;
+  font-size: 0.85rem;
+}
+.val-table th {
+  background: rgba(16, 185, 129, 0.1); color: var(--accent);
+  font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 1rem; text-align: left; border-bottom: 1px solid var(--border);
+}
+.val-table td {
+  padding: 0.9rem 1rem; border-bottom: 1px solid var(--border);
+  color: var(--text-secondary); font-size: 0.95rem;
+}
+.val-table tr:hover td { background: var(--bg-card); color: var(--text-primary); }
+.val-table .highlight { color: var(--accent); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── PUBLICATION ─── */
+.pub-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 2.5rem; position: relative; overflow: hidden;
+}
+.pub-card::after {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+.pub-card .pub-journal {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem; color: var(--accent); letter-spacing: 1px; margin-bottom: 0.75rem;
+}
+.pub-card .pub-title { font-size: 1.2rem; margin-bottom: 0.75rem; line-height: 1.4; }
+.pub-card .pub-authors { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; }
+.pub-card .pub-doi {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.pub-card .pub-doi a { color: var(--accent); text-decoration: none; }
+.pub-card .pub-doi a:hover { text-decoration: underline; }
+
+/* ─── CONTACT ─── */
+.contact-section { background: var(--bg-secondary); padding: 5rem 0; text-align: center; }
+.contact-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; flex-wrap: wrap; }
+.contact-link {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.8rem 1.5rem;
+  color: var(--text-secondary); text-decoration: none;
+  font-size: 0.85rem; transition: all 0.3s;
+}
+.contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 1px solid var(--border); padding: 2rem 0;
+  text-align: center; font-size: 0.75rem; color: var(--text-muted);
+}
+
+/* ─── LIGHTBOX ─── */
+.lightbox {
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.92); z-index: 1000;
+  justify-content: center; align-items: center; cursor: zoom-out;
+}
+.lightbox.active { display: flex; }
+.lightbox img {
+  max-width: 90vw; max-height: 90vh; object-fit: contain;
+  border-radius: 8px; cursor: default;
+}
+
+/* ─── DEMO SHOWCASE ─── */
+.demo-showcase {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.demo-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; transition: all 0.3s;
+}
+.demo-card:hover { border-color: var(--border-accent); transform: translateY(-3px); }
+.demo-card img {
+  width: 100%; height: 280px; object-fit: cover; display: block;
+  cursor: zoom-in; transition: filter 0.3s;
+}
+.demo-card:hover img { filter: brightness(1.05); }
+.demo-label {
+  padding: 0.75rem 1.25rem; display: flex; align-items: center; gap: 0.75rem;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+  color: var(--text-secondary); letter-spacing: 1px; text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+.demo-step {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--accent); color: var(--bg-primary);
+  font-size: 0.7rem; font-weight: 700;
+}
+.demo-caption {
+  padding: 1rem 1.25rem; font-size: 0.95rem; color: var(--text-muted);
+  line-height: 1.7;
+}
+@media (max-width: 900px) {
+  .demo-showcase { grid-template-columns: 1fr; }
+}
+
+/* ─── ANIMATIONS ─── */
+.fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2rem; }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  .arch-node { min-width: 140px; padding: 0.8rem; }
+  nav .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="logo">PRASHANTH REDDY PUTTA</div>
+    <div class="nav-links">
+      <a href="#architecture">Architecture</a>
+      <a href="#methodology">Methodology</a>
+      <a href="#demo">Demo</a>
+      <a href="#results">Results</a>
+      <a href="#validation">Validation</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-tag">Remote Sensing &middot; Agricultural Monitoring</div>
+      <h1>Satellite-Based Rice Paddy<br>Mapping at <em>Scale</em></h1>
+      <p class="hero-desc">
+        An adaptive phenological framework that maps 732,345 hectares of rice cultivation
+        across 32 districts using Sentinel-2 imagery and district-specific calibration,
+        achieving 93.3% accuracy in one of India's most fragmented agricultural landscapes.
+      </p>
+      <div class="hero-meta">
+        <span><span class="dot"></span> Sentinel-2 MSI (10m)</span>
+        <span><span class="dot"></span> Google Earth Engine</span>
+        <span><span class="dot"></span> Telangana, India</span>
+        <span><span class="dot"></span> Published &middot; Environmental Challenges 2025</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item fade-in">
+    <div class="stat-number" data-target="93.3">0</div>
+    <div class="stat-label">Overall Accuracy (%)</div>
+  </div>
+  <div class="stat-item fade-in">
+    <div class="stat-number" data-target="732345" data-format="comma">0</div>
+    <div class="stat-label">Hectares Mapped</div>
+  </div>
+  <div class="stat-item fade-in">
+    <div class="stat-number" data-target="32">0</div>
+    <div class="stat-label">Districts Analyzed</div>
+  </div>
+  <div class="stat-item fade-in">
+    <div class="stat-number" data-target="112077" data-format="comma">0</div>
+    <div class="stat-label">km&sup2; Study Area</div>
+  </div>
+  <div class="stat-item fade-in">
+    <div class="stat-number" data-target="0.920">0</div>
+    <div class="stat-label">R&sup2; vs Official Stats</div>
+  </div>
+</div>
+
+<!-- ARCHITECTURE -->
+<section class="arch-section" id="architecture">
+  <div class="container">
+    <div class="section-tag">01 / System Architecture</div>
+    <h2 class="section-title">End-to-End Processing Pipeline</h2>
+    <p class="section-desc">
+      A cloud-native pipeline built on Google Earth Engine that ingests multi-temporal
+      Sentinel-2 imagery, applies phenology-driven classification with district-specific
+      calibration, and produces validated rice area maps at administrative scale.
+    </p>
+
+    <div class="arch-diagram">
+      <!-- DATA ACQUISITION -->
+      <div class="arch-phase-label">Data Acquisition</div>
+      <div class="arch-row">
+        <div class="arch-node">
+          <div class="node-icon">&#x1F6F0;</div>
+          <div class="node-title">Sentinel-2 MSI</div>
+          <div class="node-detail">L2A Surface Reflectance &middot; 10m &middot; 5-day revisit</div>
+        </div>
+        <div class="arch-node">
+          <div class="node-icon">&#x1F4CD;</div>
+          <div class="node-title">Reference Fields</div>
+          <div class="node-detail">953 polygons &middot; 32 districts &middot; Manual digitization</div>
+        </div>
+        <div class="arch-node">
+          <div class="node-icon">&#x1F5FA;</div>
+          <div class="node-title">Auxiliary Data</div>
+          <div class="node-detail">JRC Water Masks &middot; ESA WorldCover 10m</div>
+        </div>
+      </div>
+
+      <div class="arch-connector"><div class="arch-arrow"></div></div>
+
+      <!-- PREPROCESSING -->
+      <div class="arch-phase-label">Preprocessing (GEE)</div>
+      <div class="arch-row">
+        <div class="arch-node primary" style="min-width: 500px;">
+          <div class="node-title">Cloud Masking &amp; Quality Control</div>
+          <div class="node-detail">QA60 band filtering &middot; 2&times;IQR statistical outlier removal &middot; Radiometric normalization (0-1)</div>
+        </div>
+      </div>
+
+      <div class="arch-connector"><div class="arch-arrow"></div></div>
+
+      <!-- FEATURE ENGINEERING -->
+      <div class="arch-phase-label">Feature Engineering</div>
+      <div class="arch-sub-row">
+        <div class="arch-sub-node">NDVI</div>
+        <div class="arch-sub-node">EVI</div>
+        <div class="arch-sub-node">LSWI</div>
+        <div class="arch-sub-node">MNDWI</div>
+        <div class="arch-sub-node">SAVI</div>
+      </div>
+      <div style="text-align: center; font-size: 0.7rem; color: var(--text-muted); margin-top: 0.5rem;">
+        5 spectral indices capturing vegetation vigor, water presence, and soil background
+      </div>
+
+      <div class="arch-connector"><div class="arch-arrow"></div></div>
+
+      <!-- PHENOLOGICAL FRAMEWORK -->
+      <div class="arch-phase-label">Phenological Framework</div>
+      <div class="arch-row">
+        <div class="arch-node" style="border-color: #f59e0b; min-width: 140px;">
+          <div class="node-icon" style="font-size: 1.2rem;">&#x1F4A7;</div>
+          <div class="node-title" style="color: #f59e0b;">Land Prep</div>
+          <div class="node-detail">Dec-Jan &middot; Flooding</div>
+        </div>
+        <div class="arch-node" style="border-color: #22c55e; min-width: 140px;">
+          <div class="node-icon" style="font-size: 1.2rem;">&#x1F331;</div>
+          <div class="node-title" style="color: #22c55e;">Vegetative</div>
+          <div class="node-detail">Jan-Mar &middot; Greening</div>
+        </div>
+        <div class="arch-node" style="border-color: #10b981; min-width: 140px;">
+          <div class="node-icon" style="font-size: 1.2rem;">&#x1F33E;</div>
+          <div class="node-title" style="color: #10b981;">Reproductive</div>
+          <div class="node-detail">Mar-Apr &middot; Peak NDVI</div>
+        </div>
+        <div class="arch-node" style="border-color: #ef4444; min-width: 140px; opacity: 0.5;">
+          <div class="node-icon" style="font-size: 1.2rem;">&#x1F342;</div>
+          <div class="node-title" style="color: #ef4444;">Ripening</div>
+          <div class="node-detail">Excluded &middot; Spectral ambiguity</div>
+        </div>
+      </div>
+      <div style="text-align: center; font-size: 0.7rem; color: var(--text-muted); margin-top: 0.5rem;">
+        Phenologically-aligned compositing &middot; District-specific temporal windows &middot; Up to 50-day variation
+      </div>
+
+      <div class="arch-connector"><div class="arch-arrow"></div></div>
+
+      <!-- CLASSIFICATION -->
+      <div class="arch-phase-label">Stage-Wise Classification</div>
+      <div class="arch-row">
+        <div class="arch-node primary" style="min-width: 280px;">
+          <div class="node-title">District-Specific<br>Threshold Optimization</div>
+          <div class="node-detail">
+            Multi-index thresholds per stage &middot; Spectral ratio criteria<br>
+            NDVI/LSWI, EVI/LSWI, NDVI/SAVI combinations
+          </div>
+        </div>
+        <div class="arch-node primary" style="min-width: 280px;">
+          <div class="node-title">Temporal Analytics</div>
+          <div class="node-detail">
+            TSP: NDVI &sigma; stability filtering per stage<br>
+            TPA: Peak/increase/decrease pattern matching
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-connector"><div class="arch-arrow"></div></div>
+
+      <!-- POST-PROCESSING -->
+      <div class="arch-phase-label">Post-Classification Refinement</div>
+      <div class="arch-sub-row">
+        <div class="arch-sub-node">IQR Outlier Filtering</div>
+        <div class="arch-sub-node">ESA WorldCover Masking</div>
+        <div class="arch-sub-node">JRC Water Body Exclusion</div>
+        <div class="arch-sub-node">20m Focal Mode Filter</div>
+      </div>
+
+      <div class="arch-connector"><div class="arch-arrow"></div></div>
+
+      <!-- VALIDATION & OUTPUT -->
+      <div class="arch-phase-label">Validation &amp; Output</div>
+      <div class="arch-row">
+        <div class="arch-node" style="border-color: #3b82f6;">
+          <div class="node-icon">&#x2705;</div>
+          <div class="node-title" style="color: #3b82f6;">Pixel-Level Validation</div>
+          <div class="node-detail">Stratified random sampling<br>4 field size categories</div>
+        </div>
+        <div class="arch-node" style="border-color: #3b82f6;">
+          <div class="node-icon">&#x1F4CA;</div>
+          <div class="node-title" style="color: #3b82f6;">Area Estimation</div>
+          <div class="node-detail">Dual-reference: GOI + Telangana<br>R&sup2; = 0.981 / 0.920</div>
+        </div>
+        <div class="arch-node primary">
+          <div class="node-icon">&#x1F30D;</div>
+          <div class="node-title">District-Wise Rice Maps</div>
+          <div class="node-detail">732,345 ha &middot; 93.3% accuracy<br>32 districts &middot; 10m resolution</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section id="methodology">
+  <div class="container">
+    <div class="section-tag">02 / Methodology</div>
+    <h2 class="section-title">Key Innovations</h2>
+    <p class="section-desc">
+      What makes this framework different from standard crop classification approaches.
+    </p>
+
+    <div class="method-grid">
+      <div class="method-card fade-in">
+        <div class="card-num">01</div>
+        <h3>District-Specific Calibration</h3>
+        <p>Rather than applying uniform parameters, each of the 32 districts gets independently optimized thresholds.
+           Initial cluster-based grouping showed &gt;20% threshold divergence within clusters, proving district-level
+           adaptation is essential for heterogeneous smallholder systems.</p>
+      </div>
+      <div class="method-card fade-in">
+        <div class="card-num">02</div>
+        <h3>Phenologically-Aligned Compositing</h3>
+        <p>Image composites are built around crop growth stages, not calendar dates. This normalizes the temporal
+           dimension by biological development rather than time, handling the 50-day planting date variation
+           across Telangana's diverse agro-climatic zones.</p>
+      </div>
+      <div class="method-card fade-in">
+        <div class="card-num">03</div>
+        <h3>Dual Temporal Analytics</h3>
+        <p>TSP (Temporal Stability Parameters) filters mixed pixels by flagging erratic NDVI patterns.
+           TPA (Temporal Pattern Analysis) verifies the flood-green-senescence trajectory. Together they
+           reduced commission errors by ~40% versus static thresholds.</p>
+      </div>
+      <div class="method-card fade-in">
+        <div class="card-num">04</div>
+        <h3>Strategic Complexity</h3>
+        <p>Spectral ratio criteria (NDVI/LSWI, EVI/LSWI) are applied selectively, only where basic thresholds
+           fail. 17 of 32 districts achieved excellent results with simple thresholds alone. Complexity is added
+           only where needed, maintaining computational efficiency.</p>
+      </div>
+      <div class="method-card fade-in">
+        <div class="card-num">05</div>
+        <h3>Sub-Hectare Field Detection</h3>
+        <p>Average field size is 0.16 hectares, with 79% of fields below 0.2 ha. The framework maintains
+           91.9% accuracy even on these tiny fields at 10m resolution, mapping fields well below 1 hectare
+           across all 32 districts.</p>
+      </div>
+      <div class="method-card fade-in">
+        <div class="card-num">06</div>
+        <h3>Operational Scalability</h3>
+        <p>Built entirely on Google Earth Engine with minimal training data requirements. No deep learning,
+           no GPU infrastructure needed. The index-based approach is interpretable, reproducible, and
+           deployable in resource-constrained environments.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE DEMO -->
+<section id="demo" style="background: var(--bg-secondary); padding: 6rem 0;">
+  <div class="container">
+    <div class="section-tag">03 / Live Output</div>
+    <h2 class="section-title">From Satellite Imagery to Crop Map</h2>
+    <p class="section-desc">
+      The same geographic area shown at three stages of the pipeline: raw input,
+      classified output, and field-level delineation.
+    </p>
+
+    <div class="demo-showcase">
+      <div class="demo-card fade-in">
+        <div class="demo-label"><span class="demo-step">1</span> Satellite Input</div>
+        <img src="images/gee_satellite_raw.png" alt="Raw Sentinel-2 satellite imagery" onclick="openLightbox(this)">
+        <div class="demo-caption">Raw high-resolution imagery showing the fragmented agricultural landscape with a central reservoir. Field boundaries are visually indistinct at this scale.</div>
+      </div>
+      <div class="demo-card fade-in">
+        <div class="demo-label"><span class="demo-step">2</span> Classification Output</div>
+        <img src="images/gee_classified_color.png" alt="Color-coded paddy field classification by hectare" onclick="openLightbox(this)">
+        <div class="demo-caption">Classified paddy fields color-coded by area (hectares). The algorithm correctly excludes the reservoir and non-agricultural areas while detecting fields across varying sizes.</div>
+      </div>
+      <div class="demo-card fade-in">
+        <div class="demo-label"><span class="demo-step">3</span> Field Delineation</div>
+        <img src="images/gee_delineation_white.png" alt="White boundary delineation of detected paddy fields" onclick="openLightbox(this)">
+        <div class="demo-caption">Close-up view showing individual field boundaries extracted from the classification. White outlines trace the detected paddy parcels against the satellite base layer.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results" style="background: var(--bg-primary); padding: 6rem 0;">
+  <div class="container">
+    <div class="section-tag">04 / Results</div>
+    <h2 class="section-title">Classification Outputs</h2>
+    <p class="section-desc">
+      Visual outputs from the phenology-driven classification across Telangana state.
+    </p>
+
+    <div class="results-grid">
+      <div class="result-card full fade-in">
+        <img src="images/spatial_distribution.png" alt="Rice cultivation spatial distribution" onclick="openLightbox(this)">
+        <div class="result-info">
+          <h4>State-Wide Rice Distribution Map</h4>
+          <p>732,345 hectares of rice cultivation mapped across 32 districts. Highest concentrations in Nalgonda (86,574 ha) and Suryapet (85,754 ha).</p>
+        </div>
+      </div>
+      <div class="result-card fade-in">
+        <img src="images/performance_overview.png" alt="Classification performance" onclick="openLightbox(this)">
+        <div class="result-info">
+          <h4>Classification Performance</h4>
+          <p>93.3% overall accuracy. 16 districts &gt;95%, 21 districts &gt;90%. Two districts achieved perfect 100% accuracy.</p>
+        </div>
+      </div>
+      <div class="result-card fade-in">
+        <img src="images/scatter_validation.png" alt="Area validation scatter plots" onclick="openLightbox(this)">
+        <div class="result-info">
+          <h4>Area Estimation Validation</h4>
+          <p>R&sup2; = 0.981 vs GOI statistics, R&sup2; = 0.920 vs Telangana Dept. Total mapped area within 1.4% of official figures.</p>
+        </div>
+      </div>
+      <div class="result-card fade-in">
+        <img src="images/detailed_validation.png" alt="Detailed validation across districts" onclick="openLightbox(this)">
+        <div class="result-info">
+          <h4>High-Resolution Validation</h4>
+          <p>True-color satellite, binary mask, and detection overlay for 6 representative districts across all agro-climatic zones.</p>
+        </div>
+      </div>
+      <div class="result-card fade-in">
+        <img src="images/spectral_indices.png" alt="Spectral index temporal dynamics" onclick="openLightbox(this)">
+        <div class="result-info">
+          <h4>Spectral-Temporal Signatures</h4>
+          <p>Rice paddy's distinctive flood-green-senescence trajectory across 5 spectral indices, clearly separating from other land covers.</p>
+        </div>
+      </div>
+      <div class="result-card fade-in">
+        <img src="images/field_size_impact.png" alt="Field size impact on accuracy" onclick="openLightbox(this)">
+        <div class="result-info">
+          <h4>Field Size Analysis</h4>
+          <p>6.8 percentage point accuracy decline from medium to tiny fields. Omission errors dominate in sub-0.2 ha fields.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALIDATION TABLE -->
+<section id="validation">
+  <div class="container">
+    <div class="section-tag">05 / Validation</div>
+    <h2 class="section-title">District-Level Performance</h2>
+    <p class="section-desc">
+      Area estimation validation against official statistics for top rice-producing districts.
+    </p>
+
+    <table class="val-table fade-in">
+      <thead>
+        <tr>
+          <th>District</th>
+          <th>Mapped (ha)</th>
+          <th>Official (ha)</th>
+          <th>Difference</th>
+          <th>Avg Field Size</th>
+          <th>Overall Accuracy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Nalgonda</td><td>86,574</td><td>86,191</td><td class="highlight">+0.4%</td><td>0.23 ha</td><td class="highlight">94.8%</td></tr>
+        <tr><td>Suryapet</td><td>85,754</td><td>82,472</td><td>+3.9%</td><td>0.58 ha</td><td class="highlight">96.4%</td></tr>
+        <tr><td>Nizamabad</td><td>64,486</td><td>67,088</td><td>-3.9%</td><td>0.71 ha</td><td class="highlight">95.8%</td></tr>
+        <tr><td>Karimnagar</td><td>46,820</td><td>48,707</td><td>-3.9%</td><td>0.19 ha</td><td class="highlight">100.0%</td></tr>
+        <tr><td>Jagtial</td><td>44,831</td><td>—</td><td>—</td><td>—</td><td class="highlight">92.2%</td></tr>
+        <tr><td>Khammam</td><td>33,614</td><td>31,843</td><td>+5.6%</td><td>0.12 ha</td><td>89.0%</td></tr>
+        <tr><td>Hanumakonda</td><td>13,635</td><td>—</td><td>—</td><td>—</td><td class="highlight">99.6%</td></tr>
+        <tr><td>Medak</td><td>12,442</td><td>—</td><td>—</td><td>—</td><td class="highlight">100.0%</td></tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top: 3rem;">
+      <div class="section-tag">Performance by Field Size</div>
+      <table class="val-table fade-in" style="margin-top: 1rem;">
+        <thead>
+          <tr><th>Category</th><th>Size Range</th><th>Accuracy</th><th>Kappa</th><th>Dominant Error</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Tiny</td><td>&lt; 0.2 ha</td><td>87.2%</td><td>0.721</td><td>Omission (93.1%)</td></tr>
+          <tr><td>Small</td><td>0.2 - 0.8 ha</td><td>91.8%</td><td>0.815</td><td>Omission (63.1%)</td></tr>
+          <tr><td>Medium</td><td>0.8 - 4.0 ha</td><td class="highlight">94.0%</td><td class="highlight">0.867</td><td>Balanced</td></tr>
+          <tr><td>Large</td><td>&gt; 4.0 ha</td><td class="highlight">96.8%</td><td class="highlight">0.927</td><td>Minimal</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section style="background: var(--bg-secondary); padding: 5rem 0;">
+  <div class="container">
+    <div class="section-tag">06 / Technology Stack</div>
+    <h2 class="section-title">Tools &amp; Platforms</h2>
+    <div class="tech-grid" style="margin-top: 2rem;">
+      <div class="tech-tag">Google Earth Engine</div>
+      <div class="tech-tag">Sentinel-2 MSI</div>
+      <div class="tech-tag">Python 3.8</div>
+      <div class="tech-tag">QGIS 3.40</div>
+      <div class="tech-tag">JavaScript (GEE API)</div>
+      <div class="tech-tag">ESA WorldCover</div>
+      <div class="tech-tag">JRC Global Surface Water</div>
+      <div class="tech-tag">Savitzky-Golay Filter</div>
+      <div class="tech-tag">NDVI / EVI / LSWI / MNDWI / SAVI</div>
+      <div class="tech-tag">Multi-temporal Analysis</div>
+      <div class="tech-tag">Phenological Classification</div>
+      <div class="tech-tag">Statistical Validation</div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATION -->
+<section>
+  <div class="container">
+    <div class="section-tag">07 / Publication</div>
+    <h2 class="section-title" style="margin-bottom: 2rem;">Published Research</h2>
+    <div class="pub-card fade-in">
+      <div class="pub-journal">Environmental Challenges &middot; Volume 21 &middot; 2025</div>
+      <div class="pub-title">Satellite-based Rabi rice paddy field mapping in India: A case study on Telangana state</div>
+      <div class="pub-authors">Prashanth Reddy Putta, Fabio Dell'Acqua</div>
+      <div class="pub-authors" style="font-size: 0.8rem; color: var(--text-muted);">
+        Dpt. of Electrical, Computer, Biomedical Engineering, University of Pavia, Italy
+      </div>
+      <div class="pub-doi" style="margin-top: 0.5rem;">
+        DOI: <a href="https://doi.org/10.1016/j.envc.2025.101320" target="_blank">10.1016/j.envc.2025.101320</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="section-tag" style="display: block; text-align: center;">Get in Touch</div>
+    <h2 class="section-title" style="text-align: center;">Prashanth Reddy Putta</h2>
+    <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+      Remote Sensing Researcher &middot; University of Pavia, Italy
+    </p>
+    <div class="contact-links">
+      <a href="mailto:prashanthputtareddy@gmail.com" class="contact-link">
+        &#x2709; prashanthputtareddy@gmail.com
+      </a>
+      <a href="https://doi.org/10.1016/j.envc.2025.101320" target="_blank" class="contact-link">
+        &#x1F4C4; Read the Paper
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    &copy; 2025 Prashanth Reddy Putta. Built for research portfolio purposes.
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+// Animated counters
+function animateCounter(el) {
+  const target = parseFloat(el.dataset.target);
+  const format = el.dataset.format;
+  const isDecimal = String(target).includes('.');
+  const duration = 2000;
+  const start = performance.now();
+
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = target * eased;
+
+    if (format === 'comma') {
+      el.textContent = Math.round(current).toLocaleString();
+    } else if (isDecimal) {
+      el.textContent = current.toFixed(String(target).split('.')[1].length);
+    } else {
+      el.textContent = Math.round(current);
+    }
+
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// Intersection Observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      const counters = entry.target.querySelectorAll('.stat-number');
+      counters.forEach(c => { if (!c.dataset.animated) { c.dataset.animated = '1'; animateCounter(c); }});
+      // Don't unobserve stats bar so counters only animate once
+      if (!entry.target.classList.contains('stat-item')) {
+        // observer.unobserve(entry.target);
+      }
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in, .stat-item').forEach(el => observer.observe(el));
+
+// Lightbox
+function openLightbox(img) {
+  document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox').classList.add('active');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+}
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+// Smooth nav highlight
+document.querySelectorAll('nav a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

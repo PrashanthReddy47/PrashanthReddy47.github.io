@@ -5,7 +5,7 @@ weight: 1
 share: false
 show_related: false
 external_link: "/projects/conservag-pavia-rice/"
-_build:
+build:
   render: never
   list: always
 links:
