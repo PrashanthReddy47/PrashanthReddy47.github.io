@@ -4,8 +4,6 @@ date: 2025-01-20
 weight: 5
 share: false
 show_related: false
-image:
-  filename: featured.gif
 links:
   - name: View on GitHub
     url: 'https://github.com/PrashanthReddy47/dms-to-gee-converter'
